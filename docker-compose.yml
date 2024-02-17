@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+        MYSQL_ROOT_PASSWORD: placeholderDevelopmentPassword
+  financeiro:
+    build:
+      dockerfile: ./dockerfiles/php.dockerfile
+    ports:
+      - '8000:8000'
+    volumes:
+      - './php:/var/www/html'
+    depends_on:
+      - db
