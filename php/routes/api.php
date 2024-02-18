@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\TransacaoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 
@@ -17,6 +17,8 @@ use App\Http\Controllers\LoginController;
 
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::middleware('autenticar')->get('/user', function (Request $request) {
-    return $request->all();
+Route::middleware('autenticar')->group(function() {
+    Route::controller(TransacaoController::class)->group(function() {
+        Route::post('/transferir', 'transferir');
+    });
 });

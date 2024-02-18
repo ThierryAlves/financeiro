@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tokens_acesso', function (Blueprint $table) {
-            $table->id()->primary();
-            $table->foreignId('cliente_id')->references('id')->on('clientes');
-            $table->string('token');
+        Schema::create('transacoes_clientes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('cliente_pagante_id')->references('id')->on('clientes');
+            $table->foreignId('cliente_recebedor_id')->references('id')->on('clientes');
+            $table->double('valor');
             $table->timestamp('created_at');
-            $table->timestamp('expires_at');
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tokens_acesso');
+        Schema::dropIfExists('transacoes_clientes');
     }
 };
