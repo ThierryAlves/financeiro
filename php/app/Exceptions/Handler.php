@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -42,6 +43,15 @@ class Handler extends ExceptionHandler
             );
         }
 
+        if ($e instanceof ValidationException) {
+            return response()->json(
+                [
+                    'message' => $e->getMessage()
+                ],
+                400
+            );
+        }
+
         if ($e instanceof \InvalidArgumentException) {
             return response()->json(
                 [
@@ -54,11 +64,11 @@ class Handler extends ExceptionHandler
 
         return response()->json(
             [
-                'message' => "Ocorreu um erro ao executar sua requisição."
+                (env('APP_ENV') === 'local') ? $e->getMessage() : 'Ocorreu um erro ao executar sua requisição.'
             ],
             500
         );
-        
+
     }
 
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TransferenciaRequest;
 use App\Http\Service\TransacaoService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TransacaoController extends Controller
 {
@@ -13,14 +15,21 @@ class TransacaoController extends Controller
         $this->transacaoService = $transacaoService;
     }
 
-    public function transferir(Request $request)
+    public function transferir(TransferenciaRequest $request)
     {
-        $this->transacaoService->transferir(
-            $request->input('recebedor_id'),
-            $request->input('valor'),
-            $request->header('authorization')
-        );
+        try {
+            DB::beginTransaction();
+            $this->transacaoService->transferir(
+                $request->input('recebedor_id'),
+                $request->input('valor'),
+                $request->header('authorization')
+            );
+            DB::commit();
 
-        return response(['mensagem' => "Operação realizada com sucesso"]);
+            return response(['mensagem' => "Operação realizada com sucesso"]);
+        }catch (\Throwable $exception){
+            DB::rollBack();
+            throw $exception;
+        }
     }
 }

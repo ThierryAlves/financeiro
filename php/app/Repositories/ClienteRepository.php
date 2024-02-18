@@ -31,7 +31,7 @@ class ClienteRepository
         ])->token;
     }
 
-    public function atualizarSaldo($id, $novoSaldo)
+    public function atualizarSaldo(int $id, float $novoSaldo)
     {
         Cliente::where('id', $id)
         ->update([
