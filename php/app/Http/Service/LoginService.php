@@ -5,6 +5,7 @@ namespace App\Http\Service;
 use App\Models\Cliente;
 use App\Repositories\ClienteRepository;
 use Illuminate\Support\Facades\Hash;
+use InvalidArgumentException;
 
 class LoginService
 {
@@ -29,11 +30,11 @@ class LoginService
         $cliente = $this->clienteRepository->byEmail($dadosAutenticacao['email']);
 
         if (! $cliente) {
-            throw new \InvalidArgumentException("Usuário não encontrado.", 404);
+            throw new InvalidArgumentException("Usuário não encontrado.", 404);
         }
 
         if(! Hash::check($dadosAutenticacao['senha'], $cliente->senha)) {
-            throw new \InvalidArgumentException("Senha incorreta.", 404);
+            throw new InvalidArgumentException("Senha incorreta.", 404);
         }
 
         return $cliente;
