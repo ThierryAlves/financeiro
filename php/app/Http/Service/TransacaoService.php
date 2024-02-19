@@ -2,6 +2,7 @@
 
 namespace App\Http\Service;
 
+use App\Http\Interfaces\NotificadorPagamento;
 use App\Models\Cliente;
 use App\Repositories\ClienteRepository;
 use App\Repositories\TransacaoRepository;
@@ -13,14 +14,16 @@ class TransacaoService
 {
     private ClienteRepository $clienteRepository;
     private TransacaoRepository $transacaoRepository;
+    private NotificadorPagamento $notificadorPagamentoService;
 
     private Cliente $pagante;
     private Cliente $recebedor;
 
-    public function __construct(ClienteRepository $clienteRepository, TransacaoRepository $transacaoRepository)
+    public function __construct(ClienteRepository $clienteRepository, TransacaoRepository $transacaoRepository,NotificadorPagamento $notificadorPagamentoService)
     {
         $this->clienteRepository = $clienteRepository;
         $this->transacaoRepository = $transacaoRepository;
+        $this->notificadorPagamentoService = $notificadorPagamentoService;
     }
 
     public function transferir(int $recebedorId, float $valor, string $token)
@@ -30,7 +33,11 @@ class TransacaoService
 
         $this->validarPermissoesTransacao();
         $this->atualizarSaldos($valor);
-        $this->enviarEmailNotificacao();
+        $this->notificadorPagamentoService->notificar(
+            $this->recebedor->email,
+            'Transferência Recebida',
+            "Você recebeu uma transferência no valor de R$ {$valor} de {$this->pagante->nome}"
+        );
     }
 
     private function validarPermissoesTransacao() : void
@@ -56,20 +63,6 @@ class TransacaoService
 
         if ($response->message !== 'Autorizado') {
             throw new DomainException("Transação não autorizada.");
-        }
-    }
-
-    private function enviarEmailNotificacao() : void
-    {
-        $response = Http::post(
-            'https://run.mocky.io/v3/54dc2cf1-3add-45b5-b5a9-6bf7e7f1f4a6',
-            ['email' => $this->recebedor->email]
-        );
-
-        $response = json_decode($response->body());
-
-        if ($response->message !== true) {
-            throw new DomainException("Ocorreu um erro ao enviar o e-mail de notificação");
         }
     }
 
