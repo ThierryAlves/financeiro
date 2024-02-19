@@ -19,8 +19,7 @@ class LoginService
     public function autenticarUsuario(array $dadosAutenticacao) : Cliente
     {
         $cliente = $this->validarDadosAcesso($dadosAutenticacao);
-        $tokenAcesso = $this->clienteRepository->gerarTokenAcesso($cliente->id);
-        $cliente->token = $tokenAcesso->token;
+        $cliente->token = $this->clienteRepository->gerarTokenAcesso($cliente->id);
 
         return $cliente;
     }

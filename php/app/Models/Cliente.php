@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cliente extends Model
@@ -25,8 +25,8 @@ class Cliente extends Model
         'senha'
     ];
 
-    public function tokens() : HasMany
+    public function token() : HasOne
     {
-        return $this->hasMany(TokenAcesso::class, 'cliente_id');
+        return $this->hasOne(TokenAcesso::class, 'cliente_id');
     }
 }

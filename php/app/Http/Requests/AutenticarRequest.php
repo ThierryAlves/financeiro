@@ -22,8 +22,17 @@ class AutenticarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'exists:clientes,email'],
             'senha' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required' => "Email é obrigatório.",
+            'email.exists' => "Cliente não encontrado.",
+            'senha.required' => "Senha é obrigatório."
         ];
     }
 }

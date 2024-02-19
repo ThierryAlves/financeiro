@@ -22,7 +22,7 @@ class TransferenciaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'recebedor_id' => ['required'],
+            'recebedor_id' => ['required', 'exists:clientes,id'],
             'valor' => ['required', 'decimal:0,2', 'min:0.01'],
         ];
     }
@@ -31,6 +31,7 @@ class TransferenciaRequest extends FormRequest
     {
         return [
             'recebedor_id.required' => "É obrigatório informar o recebedor da transferência",
+            'recebedor_id.exists' => "Cliente recebedor não foi encontrado",
             'valor.required' => "É obrigatório informar o valor da transferência",
             'valor.decimal' => "Valor informado é invalido",
             'valor.min' => "Valor informado deve ser de no minimo R$ 0.01",

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TransferenciaRequest;
 use App\Http\Service\TransacaoService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TransacaoController extends Controller
