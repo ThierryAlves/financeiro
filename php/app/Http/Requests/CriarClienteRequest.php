@@ -30,4 +30,11 @@ class CriarClienteRequest extends ClienteRequest
             ]
         );
     }
+
+    public function messages()
+    {
+        return [
+            'nome.required' => 'Nome é obrigatório.'
+        ];
+    }
 }

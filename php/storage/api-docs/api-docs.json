@@ -1,0 +1,353 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Financeira",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/cliente/criar/": {
+            "post": {
+                "tags": [
+                    "cliente"
+                ],
+                "summary": "Cria um novo cliente",
+                "operationId": "1384950ccb8c054946ff5a776ab18d83",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "documento": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "senha": {
+                                        "type": "string"
+                                    },
+                                    "telefone": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "nome": "Exemplo Nome",
+                                    "documento": "111.111.111-11",
+                                    "email": "emailexemplo@gmail.com",
+                                    "senha": "senhaExemplo123",
+                                    "telefone": "(11) 91111-1111"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "nome": {
+                                            "type": "string"
+                                        },
+                                        "documento": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "telefone": {
+                                            "type": "string"
+                                        },
+                                        "tipo": {
+                                            "type": "integer"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "id": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "nome": "Exemplo Nome",
+                                        "documento": "11111111111",
+                                        "email": "emailexemplo@gmail.com",
+                                        "telefone": "11951380478",
+                                        "tipo": 2,
+                                        "updated_at": "2024-02-20T23:20:52.000000Z",
+                                        "created_at": "2024-02-20T23:20:52.000000Z",
+                                        "id": 7
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "erro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Nome é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cliente/{id}": {
+            "get": {
+                "tags": [
+                    "cliente"
+                ],
+                "summary": "Recupera um cliente",
+                "operationId": "454554898f870689e292db5ee7c296eb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "nome": {
+                                            "type": "string"
+                                        },
+                                        "documento": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "telefone": {
+                                            "type": "string"
+                                        },
+                                        "tipo": {
+                                            "type": "integer"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "id": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object",
+                                    "example": {
+                                        "nome": "Exemplo Nome",
+                                        "documento": "11111111111",
+                                        "email": "emailexemplo@gmail.com",
+                                        "telefone": "11951380478",
+                                        "tipo": 2,
+                                        "updated_at": "2024-02-20T23:20:52.000000Z",
+                                        "created_at": "2024-02-20T23:20:52.000000Z",
+                                        "id": 7
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "erro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "cliente não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cliente/atualizar/{id}": {
+            "patch": {
+                "tags": [
+                    "cliente"
+                ],
+                "summary": "Atualiza dados de um cliente",
+                "operationId": "bd3237d5b577c95bf79cac1e4aa7026e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "documento": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "senha": {
+                                        "type": "string"
+                                    },
+                                    "telefone": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "nome": "Exemplo Nome",
+                                    "documento": "111.111.111-11",
+                                    "email": "emailexemplo@gmail.com",
+                                    "senha": "senhaExemplo123",
+                                    "telefone": "(11) 91111-1111"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Cliente atualizado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "erro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Cliente não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cliente/excluir/{id}": {
+            "delete": {
+                "tags": [
+                    "cliente"
+                ],
+                "summary": "Exclui um usuário",
+                "operationId": "071735d5578e28eb9ac541517bf9f4bf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Cliente excluido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "erro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Cliente não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

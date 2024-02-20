@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,10 +34,19 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        if ($e instanceof ModelNotFoundException) {
+            return response(
+                [
+                    'mensagem' => "{$this->recuperarNomeEntidadeNaoEncontrada($e)} não encontrado."
+                ],
+                404
+            );
+        }
+
         if ($e instanceof UnauthorizedException) {
             return response()->json(
                 [
-                    'message' => $e->getMessage()
+                    'mensagem' => $e->getMessage()
                 ],
                 401
             );
@@ -46,7 +55,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof ValidationException) {
             return response()->json(
                 [
-                    'message' => $e->getMessage()
+                    'mensagem' => $e->validator->errors()->first()
                 ],
                 400
             );
@@ -55,7 +64,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof \InvalidArgumentException) {
             return response()->json(
                 [
-                    'message' => $e->getMessage()
+                    'mensagem' => $e->getMessage()
                 ],
                 400
             );
@@ -69,6 +78,11 @@ class Handler extends ExceptionHandler
             500
         );
 
+    }
+
+    private function recuperarNomeEntidadeNaoEncontrada(ModelNotFoundException $exception): string
+    {
+        return strtolower(class_basename($exception->getModel()));
     }
 
 }
