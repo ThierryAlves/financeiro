@@ -11,8 +11,10 @@ class NotificadorPagamentoFactory
     private NotificadorPagamentoEmailService $notificadorPagamentoEmail;
     private NotificadorPagamentoSmsService $notificadorPagamentoSms;
 
-    public function __construct(NotificadorPagamentoEmailService $notificadorPagamentoEmail, NotificadorPagamentoSmsService $notificadorPagamentoSms)
-    {
+    public function __construct(
+        NotificadorPagamentoEmailService $notificadorPagamentoEmail,
+        NotificadorPagamentoSmsService $notificadorPagamentoSms
+    ){
         $this->notificadorPagamentoEmail = $notificadorPagamentoEmail;
         $this->notificadorPagamentoSms = $notificadorPagamentoSms;
     }

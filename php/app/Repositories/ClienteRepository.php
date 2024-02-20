@@ -7,6 +7,25 @@ use App\Models\TokenAcesso;
 
 class ClienteRepository
 {
+    public function criar(
+        string $nome,
+        string $documento,
+        string $email,
+        string $senha,
+        string $telefone,
+        int $tipo
+    ) : Cliente
+    {
+        return Cliente::create([
+            'nome' => $nome,
+            'documento' => $documento,
+            'email' => $email,
+            'senha' => $senha,
+            'telefone' => $telefone,
+            'tipo' => $tipo
+        ]);
+    }
+
     public function byId(int $id) : ?Cliente
     {
         return Cliente::find($id);
@@ -42,5 +61,15 @@ class ClienteRepository
         ->update([
             'saldo' => $novoSaldo
         ]);
+    }
+
+    public function atualizar(Cliente $cliente, array $novosDados) : Cliente
+    {
+        $cliente->update($novosDados);
+    }
+
+    public function excluir(Cliente $cliente)
+    {
+        $cliente->delete();
     }
 }

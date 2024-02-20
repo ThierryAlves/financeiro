@@ -11,14 +11,13 @@ class Cliente extends Model
 {
     use HasFactory, softDeletes;
 
-    const CLIENTE_TIPO_PESSOA_FISICA = 1;
-    const CLIENTE_TIPO_PESSOA_JURIDICA = 2;
-
     protected $fillable = [
         'nome',
         'documento',
         'email',
-        'password',
+        'senha',
+        'telefone',
+        'tipo'
     ];
 
     protected $hidden = [

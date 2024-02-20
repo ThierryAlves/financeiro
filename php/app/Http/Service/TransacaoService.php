@@ -3,8 +3,8 @@
 namespace App\Http\Service;
 
 use App\Http\Factories\NotificadorPagamentoFactory;
-use App\Http\Interfaces\NotificadorPagamento;
 use App\Models\Cliente;
+use App\Models\TipoCliente;
 use App\Repositories\ClienteRepository;
 use App\Repositories\TransacaoRepository;
 use DomainException;
@@ -21,8 +21,11 @@ class TransacaoService
     private Cliente $pagante;
     private Cliente $recebedor;
 
-    public function __construct(ClienteRepository $clienteRepository, TransacaoRepository $transacaoRepository,NotificadorPagamentoFactory $notificadorPagamentoFactory)
-    {
+    public function __construct(
+        ClienteRepository $clienteRepository,
+        TransacaoRepository $transacaoRepository,
+        NotificadorPagamentoFactory $notificadorPagamentoFactory
+    ){
         $this->clienteRepository = $clienteRepository;
         $this->transacaoRepository = $transacaoRepository;
         $this->notificadorPagamentoFactory = $notificadorPagamentoFactory;
@@ -38,7 +41,7 @@ class TransacaoService
         $this->enviarNotificacao($notificador, $valor);
     }
 
-    private function enviarNotificacao(?string $notificador, float $valor)
+    private function enviarNotificacao(?string $notificador, float $valor) : void
     {
         $service = $this->notificadorPagamentoFactory->definirNotificadorPagamento($notificador);
         $service->notificar(
@@ -54,7 +57,7 @@ class TransacaoService
             throw new DomainException("Não é permitido realizar transferencias para si mesmo");
         }
 
-        if ($this->pagante->tipo === Cliente::CLIENTE_TIPO_PESSOA_JURIDICA) {
+        if ($this->pagante->tipo === TipoCliente::TIPO_PESSOAJURIDICA) {
             throw new DomainException("Usuário não possui permissão para realizar tranferencias");
         }
 
