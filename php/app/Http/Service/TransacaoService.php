@@ -2,11 +2,13 @@
 
 namespace App\Http\Service;
 
+use App\Http\Factories\NotificadorPagamentoFactory;
 use App\Http\Interfaces\NotificadorPagamento;
 use App\Models\Cliente;
 use App\Repositories\ClienteRepository;
 use App\Repositories\TransacaoRepository;
 use DomainException;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 
@@ -14,27 +16,33 @@ class TransacaoService
 {
     private ClienteRepository $clienteRepository;
     private TransacaoRepository $transacaoRepository;
-    private NotificadorPagamento $notificadorPagamentoService;
+    private NotificadorPagamentoFactory $notificadorPagamentoFactory;
 
     private Cliente $pagante;
     private Cliente $recebedor;
 
-    public function __construct(ClienteRepository $clienteRepository, TransacaoRepository $transacaoRepository,NotificadorPagamento $notificadorPagamentoService)
+    public function __construct(ClienteRepository $clienteRepository, TransacaoRepository $transacaoRepository,NotificadorPagamentoFactory $notificadorPagamentoFactory)
     {
         $this->clienteRepository = $clienteRepository;
         $this->transacaoRepository = $transacaoRepository;
-        $this->notificadorPagamentoService = $notificadorPagamentoService;
+        $this->notificadorPagamentoFactory = $notificadorPagamentoFactory;
     }
 
-    public function transferir(int $recebedorId, float $valor, string $token)
+    public function transferir(int $recebedorId, float $valor, string $token, ?string $notificador = null) : void
     {
         $this->pagante = $this->clienteRepository->byToken($token);
         $this->recebedor =  $this->clienteRepository->byId($recebedorId);
 
         $this->validarPermissoesTransacao();
         $this->atualizarSaldos($valor);
-        $this->notificadorPagamentoService->notificar(
-            $this->recebedor->email,
+        $this->enviarNotificacao($notificador, $valor);
+    }
+
+    private function enviarNotificacao(?string $notificador, float $valor)
+    {
+        $service = $this->notificadorPagamentoFactory->definirNotificadorPagamento($notificador);
+        $service->notificar(
+            $this->recebedor,
             'Transferência Recebida',
             "Você recebeu uma transferência no valor de R$ {$valor} de {$this->pagante->nome}"
         );
@@ -75,8 +83,15 @@ class TransacaoService
             throw new DomainException("Usuário não possui saldo suficiente para essa operação");
         }
 
-        $this->transacaoRepository->adicionarTransacao($this->pagante->id, $this->recebedor->id, $valor);
-        $this->clienteRepository->atualizarSaldo($this->pagante->id, $novoSaldoPagante);
-        $this->clienteRepository->atualizarSaldo($this->recebedor->id, $novoSaldoRecebedor);
+        try {
+            Db::beginTransaction();
+            $this->transacaoRepository->adicionarTransacao($this->pagante->id, $this->recebedor->id, $valor);
+            $this->clienteRepository->atualizarSaldo($this->pagante->id, $novoSaldoPagante);
+            $this->clienteRepository->atualizarSaldo($this->recebedor->id, $novoSaldoRecebedor);
+            DB::commit();
+        }catch (\Throwable $exception) {
+            DB::rollback();
+            throw $exception;
+        }
     }
 }

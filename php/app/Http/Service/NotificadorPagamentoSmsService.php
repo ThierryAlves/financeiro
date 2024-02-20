@@ -7,13 +7,13 @@ use App\Models\Cliente;
 use DomainException;
 use Illuminate\Support\Facades\Http;
 
-class NotificadorPagamentoEmailService implements NotificadorPagamento{
-    public function notificar(Cliente $cliente, string $assunto, string $corpo) {
+class NotificadorPagamentoSmsService implements NotificadorPagamento{
+
+    public function notificar(Cliente $cliente, string $assunto, string $mensagem) {
         $postBody = [
-            'remetente' => 'exemplo.remetente@mail.com',
-            'destinatario' => $cliente->email,
+            'telefone' => $cliente->telefone,
             'assunto' => $assunto,
-            'corpo' => $corpo
+            'mensagem' => $mensagem
         ];
 
         $response = Http::post(

@@ -2,8 +2,10 @@
 
 namespace App\Http\Interfaces;
 
+use App\Models\Cliente;
+
 interface NotificadorPagamento
 {
-    public function notificar(string $remetente, string $cabecalho, string $corpo);
+    public function notificar(Cliente $remetente, string $cabecalho, string $corpo);
 }
 

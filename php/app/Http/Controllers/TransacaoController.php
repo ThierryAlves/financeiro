@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class TransacaoController extends Controller
 {
     private TransacaoService $transacaoService;
+
     public function __construct(TransacaoService $transacaoService)
     {
         $this->transacaoService = $transacaoService;
@@ -21,7 +22,8 @@ class TransacaoController extends Controller
             $this->transacaoService->transferir(
                 $request->input('recebedor_id'),
                 $request->input('valor'),
-                $request->header('authorization')
+                $request->header('authorization'),
+                $request->input('notificacao')
             );
             DB::commit();
 
