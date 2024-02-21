@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 
-class TransacaoService
+class TransferenciaService
 {
     private ClienteRepository $clienteRepository;
     private TransacaoRepository $transacaoRepository;

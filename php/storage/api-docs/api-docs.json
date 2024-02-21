@@ -31,9 +31,6 @@
                                     },
                                     "telefone": {
                                         "type": "string"
-                                    },
-                                    "phone": {
-                                        "type": "string"
                                     }
                                 },
                                 "type": "object",
@@ -241,9 +238,6 @@
                                     },
                                     "telefone": {
                                         "type": "string"
-                                    },
-                                    "phone": {
-                                        "type": "string"
                                     }
                                 },
                                 "type": "object",
@@ -339,6 +333,75 @@
                                         "mensagem": {
                                             "type": "string",
                                             "example": "Cliente não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/transferir": {
+            "post": {
+                "tags": [
+                    "transferencia"
+                ],
+                "summary": "Realiza transferência entre 2 clientes",
+                "operationId": "bc1294ac3b6a66d4afccf780a54b5933",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "recebedor_id": {
+                                        "type": "integer"
+                                    },
+                                    "valor": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "notificacao": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "recebedor_id": 2,
+                                    "valor": 10.5,
+                                    "notificacao": "sms"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Operação realizada com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "erro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Cliente recebedor não foi encontrado"
                                         }
                                     },
                                     "type": "object"

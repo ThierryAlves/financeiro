@@ -48,10 +48,6 @@ class ClienteController extends Controller
      *                   property="telefone",
      *                   type="string"
      *              ),
-     *              @OA\Property(
-     *                  property="phone",
-     *                  type="string"
-     *              ),
      *              example={"nome":"Exemplo Nome","documento":"111.111.111-11","email":"emailexemplo@gmail.com","senha":"senhaExemplo123","telefone":"(11) 91111-1111"}
      *           )
      *       )
@@ -241,10 +237,6 @@ class ClienteController extends Controller
      *              @OA\Property(
      *                   property="telefone",
      *                   type="string"
-     *              ),
-     *              @OA\Property(
-     *                  property="phone",
-     *                  type="string"
      *              ),
      *              example={"nome":"Exemplo Nome","documento":"111.111.111-11","email":"emailexemplo@gmail.com","senha":"senhaExemplo123","telefone":"(11) 91111-1111"}
      *           )
