@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tokens_acesso', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->foreignId('cliente_id')->references('id')->on('clientes');
             $table->string('token');
             $table->timestamp('created_at');

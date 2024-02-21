@@ -12,15 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('clientes', function (Blueprint $table) {
-            $table->id()->primary();
+            $table->id();
             $table->string('nome');
             $table->string('documento', '13')->unique();
             $table->string('email')->unique();
             $table->string('senha');
+            $table->double('saldo');
+            $table->string('telefone');
             $table->foreignId('tipo')->references('id')->on('tipo_clientes');
             $table->softDeletes();
             $table->timestamps();
         });
+
     }
 
     /**
