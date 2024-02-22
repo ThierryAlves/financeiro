@@ -26,6 +26,17 @@ class ClienteSeeder extends Seeder
                 'created_at' => Carbon::now()->subDays(rand(1, 30)),
                 'updated_at' => Carbon::now()->addDays(rand(1, 30)),
             ],
+            [
+                'nome' => 'Cliente PJ 1',
+                'documento' => fake('pt_BR')->cnpj(false),
+                'email' => 'clientepj1@mail.com',
+                'senha' => Hash::make('senhaClientePj1'),
+                'telefone' => fake('pt_BR')->phoneNumberCleared(),
+                'tipo' => 2,
+                'saldo' => '1000',
+                'created_at' => Carbon::now()->subDays(rand(1, 30)),
+                'updated_at' => Carbon::now()->addDays(rand(1, 30)),
+            ],
 
         ];
 

@@ -17,8 +17,8 @@ class TokenAcessoSeeder extends Seeder
             [
                 'cliente_id' => 1,
                 'token' => 'abcdefghijkl0123456789',
-                'created_at' => \Illuminate\Support\Carbon::now()->subDays(rand(1, 30)),
-                'expires_at' => \Illuminate\Support\Carbon::now()->addHours(8),
+                'created_at' => Carbon::now()->subDays(rand(1, 30)),
+                'expires_at' => Carbon::now()->addHours(8),
             ],
         ];
 
