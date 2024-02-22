@@ -63,7 +63,7 @@ class ClienteRepository
         ]);
     }
 
-    public function atualizar(Cliente $cliente, array $novosDados) : Cliente
+    public function atualizar(Cliente $cliente, array $novosDados) : void
     {
         $cliente->update($novosDados);
     }

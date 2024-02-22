@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('documento', '15')->unique();
             $table->string('email')->unique();
             $table->string('senha');
-            $table->double('saldo');
+            $table->double('saldo')->default(0);
             $table->string('telefone');
             $table->foreignId('tipo')->references('id')->on('tipo_clientes');
             $table->softDeletes();
